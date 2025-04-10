@@ -4,6 +4,7 @@ public class LibraryDTO {
     private Long id;
     private String name;
     private String address;
+    private String phoneNumber;
     private LibrarianDTO librarianDTO;
 
     public Long getId() {
@@ -28,6 +29,14 @@ public class LibraryDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public LibrarianDTO getLibrarianDTO() {

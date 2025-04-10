@@ -9,6 +9,7 @@ public class LibraryMapper {
 
         library.setName(libraryDTO.getName());
         library.setAddress(libraryDTO.getAddress());
+        library.setPhoneNumber(libraryDTO.getPhoneNumber());
 
         return library;
     }
@@ -19,6 +20,7 @@ public class LibraryMapper {
         libraryDTO.setId(library.getId());
         libraryDTO.setName(library.getName());
         libraryDTO.setAddress(library.getAddress());
+        libraryDTO.setPhoneNumber(library.getPhoneNumber());
 
         return libraryDTO;
     }

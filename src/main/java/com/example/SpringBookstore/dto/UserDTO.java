@@ -11,6 +11,8 @@ public class UserDTO {
     private UserGender gender;
     private Integer age;
     private LocalDate birthDate;
+    private String country;
+    private String phoneNumber;
     private String emailAddress;
     private String password;
     private String verificationCode;
@@ -63,6 +65,22 @@ public class UserDTO {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmailAddress() {

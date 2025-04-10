@@ -34,7 +34,7 @@ public class Librarian {
     private Boolean verifiedAccount = false;
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "LIBRARY_ID")
+    @JoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
     private Library library;
 
     public Long getId() {

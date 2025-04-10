@@ -32,6 +32,12 @@ public class User {
     @Column(name = "BIRTHDATE")
     private LocalDate birthDate;
 
+    @Column(name = "COUNTRY")
+    private String country;
+
+    @Column(name = "PHONENUMBER")
+    private String phoneNumber;
+
     @Column(name = "EMAIL_ADDRESS")
     private String emailAddress;
 
@@ -96,6 +102,22 @@ public class User {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmailAddress() {

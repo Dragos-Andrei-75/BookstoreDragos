@@ -4,6 +4,7 @@ import com.example.SpringBookstore.BookCategory;
 import com.example.SpringBookstore.exceptionHandling.exception.BadRequestException;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
+
+    @Column(name = "ISBN")
+    private Long isbn;
 
     @Column(name = "TITLE")
     private String title;
@@ -31,6 +35,9 @@ public class Book {
     @Column(name = "NUMBER_OF_PAGES")
     private Integer numberOfPages;
 
+    @Column(name = "RELEASE_DATE")
+    private LocalDate releaseDate;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "LIBRARY_ID")
     private Library library;
@@ -44,6 +51,14 @@ public class Book {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(Long isbn) {
+        this.isbn = isbn;
     }
 
     public String getTitle() {
@@ -84,6 +99,14 @@ public class Book {
 
     public void setNumberOfPages(Integer numberOfPages) {
         this.numberOfPages = numberOfPages;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Library getLibrary() {

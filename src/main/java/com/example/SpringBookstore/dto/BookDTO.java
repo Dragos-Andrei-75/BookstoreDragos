@@ -2,13 +2,17 @@ package com.example.SpringBookstore.dto;
 
 import com.example.SpringBookstore.BookCategory;
 
+import java.time.LocalDate;
+
 public class BookDTO {
     private Long id;
+    private Long isbn;
     private String title;
     private String author;
     private BookCategory category;
     private String language;
     private Integer numberOfPages;
+    private LocalDate releaseDate;
     private LibraryDTO libraryDTO;
 
     public Long getId() {
@@ -17,6 +21,14 @@ public class BookDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(Long isbn) {
+        this.isbn = isbn;
     }
 
     public String getTitle() {
@@ -57,6 +69,14 @@ public class BookDTO {
 
     public void setNumberOfPages(Integer numberOfPages) {
         this.numberOfPages = numberOfPages;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public LibraryDTO getLibraryDTO() {

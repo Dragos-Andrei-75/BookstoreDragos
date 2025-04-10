@@ -20,8 +20,11 @@ public class Library {
     @Column(name = "ADDRESS")
     private String address;
 
+    @Column(name = "PHONENUMBER")
+    private String phoneNumber;
+
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "library")
-    @JoinColumn(name = "LIBRARIAN_ID")
+    @JoinColumn(name = "LIBRARIAN_ID", referencedColumnName = "ID")
     private Librarian librarian;
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "library", orphanRemoval = true)
@@ -49,6 +52,14 @@ public class Library {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Librarian getLibrarian() {
