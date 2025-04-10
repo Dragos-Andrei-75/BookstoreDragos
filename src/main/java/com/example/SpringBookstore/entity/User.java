@@ -56,6 +56,12 @@ public class User {
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Library> favouriteLibraries = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
     public Long getId() {
         return id;
     }
@@ -166,6 +172,22 @@ public class User {
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public List<Library> getFavouriteLibraries() {
+        return favouriteLibraries;
+    }
+
+    public void setFavouriteLibraries(List<Library> favouriteLibraries) {
+        this.favouriteLibraries = favouriteLibraries;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public void addReservation(Reservation reservation) {

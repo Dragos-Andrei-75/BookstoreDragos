@@ -30,6 +30,9 @@ public class Library {
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "library", orphanRemoval = true)
     private List<Book> books = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<User> users;
+
     public Long getId() {
         return id;
     }
@@ -76,6 +79,14 @@ public class Library {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public void addBook(Book book) {

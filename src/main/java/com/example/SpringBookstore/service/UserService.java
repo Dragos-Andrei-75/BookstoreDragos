@@ -1,8 +1,10 @@
 package com.example.SpringBookstore.service;
 
 import com.example.SpringBookstore.dto.UserDTO;
+import com.example.SpringBookstore.entity.Library;
 import com.example.SpringBookstore.entity.User;
 import com.example.SpringBookstore.exceptionHandling.exception.BadRequestException;
+import com.example.SpringBookstore.repository.LibraryRepository;
 import com.example.SpringBookstore.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -20,11 +23,13 @@ import java.time.LocalDateTime;
 public class UserService {
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final LibraryRepository libraryRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, EmailService emailService) {
+    public UserService(UserRepository userRepository, EmailService emailService, LibraryRepository libraryRepository) {
         this.userRepository = userRepository;
         this.emailService = emailService;
+        this.libraryRepository = libraryRepository;
     }
 
     public User create(User userToCreate) {
@@ -130,5 +135,60 @@ public class UserService {
         }
 
         return user;
+    }
+
+    @Transactional
+    public Library addLibraryToFavourites(Long userId, Long libraryId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with ID " + userId + " not found."));
+
+        Library library = libraryRepository.findById(libraryId)
+                .orElseThrow(() -> new EntityNotFoundException("Library with ID " + libraryId + " not found."));
+
+        if (!user.getFavouriteLibraries().contains(library)) {
+            user.getFavouriteLibraries().add(library);
+        } else {
+            throw new RuntimeException("Library with ID " + libraryId + " already in user favourites.");
+        }
+
+        if (!library.getUsers().contains(user)) {
+            library.getUsers().add(user);
+        } else {
+            throw new RuntimeException("User with ID " + userId + " already in library list of users.");
+        }
+
+        userRepository.save(user);
+
+        return libraryRepository.save(library);
+    }
+
+    @Transactional
+    public Library removeLibraryFromFavourites(Long userId, Long libraryId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with ID " + userId + " not found."));
+
+        Library library = libraryRepository.findById(libraryId)
+                .orElseThrow(() -> new EntityNotFoundException("Library with ID " + libraryId + " not found."));
+
+        if (user.getFavouriteLibraries().contains(library)) {
+            user.getFavouriteLibraries().remove(library);
+        } else {
+            throw new RuntimeException("Library with ID " + libraryId + " not in user favourites.");
+        }
+
+        if (library.getUsers().contains(user)) {
+            library.getUsers().remove(user);
+        } else {
+            throw new RuntimeException("User with ID " + userId + " not in library list of users.");
+        }
+
+        userRepository.save(user);
+
+        return libraryRepository.save(library);
+    }
+
+    public Page<Library> listFavouriteLibrariesPaginated(Long userId, Integer pageNumber, Integer pageSize) {
+        Pageable pageable = (pageNumber != null && pageSize != null) ? PageRequest.of(pageNumber, pageSize) : Pageable.unpaged();
+        return libraryRepository.findFavouriteLibraries(userId, pageable);
     }
 }
