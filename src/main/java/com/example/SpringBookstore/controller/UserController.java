@@ -1,7 +1,9 @@
 package com.example.SpringBookstore.controller;
 
 import com.example.SpringBookstore.dto.UserDTO;
+import com.example.SpringBookstore.entity.Library;
 import com.example.SpringBookstore.entity.User;
+import com.example.SpringBookstore.mapper.LibraryMapper;
 import com.example.SpringBookstore.mapper.UserMapper;
 import com.example.SpringBookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +82,27 @@ public class UserController {
                                    @RequestParam String password) {
         User loggedUser = userService.login(emailAddress, password);
         return ResponseEntity.ok(UserMapper.user2UserDTO(loggedUser));
+    }
+
+    @PutMapping(path = "/add/{userId}/{libraryId}")
+    public ResponseEntity<?> addLibraryToFavourites(@PathVariable(name = "userId") Long userId, @PathVariable(name = "libraryId") Long libraryId) {
+        Library library = userService.addLibraryToFavourites(userId, libraryId);
+        return ResponseEntity.ok(LibraryMapper.library2LibraryDTO(library));
+    }
+
+    @PutMapping(path = "/remove/{userId}/{libraryId}")
+    public ResponseEntity<?> removeLibraryToFavourites(@PathVariable(name = "userId") Long userId, @PathVariable(name = "libraryId") Long libraryId) {
+        Library library = userService.removeLibraryFromFavourites(userId, libraryId);
+        return ResponseEntity.ok(LibraryMapper.library2LibraryDTO(library));
+    }
+
+    @GetMapping(path = "/list/{userId}")
+    public ResponseEntity<?> listFavouriteLibrariesPaginated(@PathVariable(name = "userId") Long userId,
+                                                             @RequestParam(required = false) Integer pageNumber,
+                                                             @RequestParam(required = false) Integer pageSize) {
+        Page<Library> favouriteLibraries = userService.listFavouriteLibrariesPaginated(userId, pageNumber, pageSize);
+        return ResponseEntity.ok(favouriteLibraries.stream()
+                .map(LibraryMapper::library2LibraryDTO)
+                .toList());
     }
 }

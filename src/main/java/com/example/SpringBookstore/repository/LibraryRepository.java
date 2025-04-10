@@ -36,4 +36,17 @@ public interface LibraryRepository extends JpaRepository<Library, Long> {
                     """,
             nativeQuery = true)
     Page<Reservation> findReservationByLibraryIdForPeriod(@Param(value = "libraryId") Long libraryId, LocalDate startDate, LocalDate endDate, List<String> reservationStatusFilters, Pageable pageable);
+
+    /*
+    @Query(value = """
+            SELECT l.* FROM libraries l
+            WHERE (
+                SELECT u.* FROM users u
+            )
+            """, nativeQuery = true)
+   */
+    @Query(value = """
+            SELECT l.* FROM libraries l
+            """, nativeQuery = true)
+    Page<Library> findFavouriteLibraries(@Param(value = "userId") Long userId, Pageable pageable);
 }

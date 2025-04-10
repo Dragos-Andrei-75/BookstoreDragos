@@ -45,6 +45,12 @@ public class Book {
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "book", orphanRemoval = true)
     private List<Copy> copies = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "book")
+    private List<Review> reviews = new ArrayList<>();
+
+    @Column(name = "RATING")
+    private Float rating = 0.0f;
+
     public Long getId() {
         return id;
     }
@@ -123,6 +129,28 @@ public class Book {
 
     public void setCopies(List<Copy> copies) {
         this.copies = copies;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public void calculateRating() {
+        rating = 0.0f;
+        reviews.forEach(review -> rating += review.getGrade());
+        rating /= reviews.size();
     }
 
     public void addCopy(Copy copy) {
